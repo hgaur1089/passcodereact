@@ -13,77 +13,48 @@ function SignupForm() {
   const [passwordType, setPasswordType] = useState("password");
   const [confirmPasswordType, setConfirmPasswordType] = useState("password");
 
-  const validateEmail = (email) => {
-    const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    return regex.test(email);
-  };
-
-  const validatePassword = (password) => {
-    const regex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/;
-    return regex.test(password);
-  };
-
-  const validateUserName = (userName) => {
-    return userName.length > 3 && userName.length < 25;
-  };
-
-  const validateConfirmPassword = (password, confirmPassword) => {
-    if (password === confirmPassword) {
-      return true;
-    }
-    return false;
-    // return password === confirmPassword;
-  };
-
   const checkUserName = () => {
-    if (userName === null || userName === "") {
-      setUserNameError("Username cannot be empty");
-    } else if (!validateUserName(userName)) {
+    if (userName.length < 3 || userName.length > 25) {
       setUserNameError("Username must be between 3 and 25 characters");
+      return false;
     } else {
-      setUserNameError(null);
+      setUserNameError("");
       return true;
     }
-    return false;
   };
 
   const checkEmail = () => {
-    if (email === null || email === "") {
-      setEmailError("Email cannot be empty");
-    } else if (!validateEmail(email)) {
-      setEmailError("Please enter a valid email");
-    } else {
-      setEmailError(null);
+    const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (regex.test(email)) {
+      setEmailError("");
       return true;
+    } else {
+      setEmailError("Please enter a valid email");
+      return false;
     }
-    return false;
   };
 
   const checkPassword = () => {
-    if (password === null || password === "") {
-      setPasswordError("Password cannot be empty");
-    } else if (!validatePassword(password)) {
-      setPasswordError(
-        "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number and one special character."
-      );
-    } else {
-      setPasswordError(null);
+    const regex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/;
+    if (regex.test(password)) {
+      setPasswordError("");
       return true;
+    } else {
+      setPasswordError(
+        "Password must be at least 8 characters long and contain at least one number and one special character"
+      );
+      return false;
     }
-    return false;
   };
 
   const checkConfirmPassword = () => {
-    if (confirmPassword === null || confirmPassword === "") {
-      setConfirmPasswordError("Confirm Password cannot be empty");
-    } else if (!validateConfirmPassword(password, confirmPassword)) {
-        console.log("password", confirmPassword);
-      setConfirmPasswordError("Passwords do not match");
-    } else {
-      setConfirmPasswordError(null);
+    if (password === confirmPassword) {
+      setConfirmPasswordError("");
       return true;
+    } else {
+      setConfirmPasswordError("Passwords do not match");
+      return false;
     }
-    return false;
   };
 
   const handleInputChange = (e) => {
@@ -91,16 +62,13 @@ function SignupForm() {
     if (id === "userName") {
       setUserName(value);
       checkUserName();
-    }
-    if (id === "email") {
+    } else if (id === "email") {
       setEmail(value);
       checkEmail();
-    }
-    if (id === "password") {
+    } else if (id === "password") {
       setPassword(value);
       checkPassword();
-    }
-    if (id === "confirmPassword") {
+    } else if (id === "confirmPassword") {
       setConfirmPassword(value);
       checkConfirmPassword();
     }
@@ -141,7 +109,7 @@ function SignupForm() {
     <div className="form-container">
       <form action="" method="POST">
         <h3>Sign Up Here</h3>
-        <label for="username">Userame</label>
+        <label htmlFor="username">Userame</label>
         <input
           type="text"
           id="userName"
@@ -154,7 +122,7 @@ function SignupForm() {
           <span className="usernameAlert">{userNameError}</span>
         )}
 
-        <label for="email">Email</label>
+        <label htmlFor="email">Email</label>
         <input
           type="email"
           id="email"
@@ -165,8 +133,8 @@ function SignupForm() {
         />
         {emailError && <span className="emailAlert">{emailError}</span>}
 
-        <label for="password">Password</label>
-        <div className="password">
+        <label htmlFor="password">Password</label>
+        <div className="passwordDiv">
           <input
             type={passwordType}
             id="password"
@@ -192,8 +160,8 @@ function SignupForm() {
           <span className="passwordAlert">{passwordError}</span>
         )}
 
-        <label for="confirm-password">Confirm Password</label>
-        <div className="password">
+        <label htmlFor="confirm-password">Confirm Password</label>
+        <div className="passwordDiv">
           <input
             type={confirmPasswordType}
             id="confirmPassword"

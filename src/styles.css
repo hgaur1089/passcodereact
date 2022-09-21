@@ -113,16 +113,16 @@ span {
     width: 100%;
 }
 
-.password {
+.passwordDiv {
     display: flex;
     align-items: center;
 }
-.password i {
+.passwordDiv i {
     margin: 10px;
     color: #ffffff;
 }
 
-.password i:hover {
+.passwordDiv i:hover {
     cursor: pointer;
     color: #0062ff;
 }
