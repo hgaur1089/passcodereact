@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./styles.css";
 
 function SignupForm() {
@@ -12,6 +12,21 @@ function SignupForm() {
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [passwordType, setPasswordType] = useState("password");
   const [confirmPasswordType, setConfirmPasswordType] = useState("password");
+
+  useEffect(() => {
+    if (userName) {
+      checkUserName();
+    }
+    if (email) {
+      checkEmail();
+    }
+    if (password) {
+      checkPassword();
+    }
+    if (confirmPassword) {
+      checkConfirmPassword();
+    }
+  }, [userName, email, password, confirmPassword]);
 
   const checkUserName = () => {
     if (userName.length < 3 || userName.length > 25) {
@@ -61,16 +76,16 @@ function SignupForm() {
     const { id, value } = e.target;
     if (id === "userName") {
       setUserName(value);
-      checkUserName();
+      // checkUserName();
     } else if (id === "email") {
       setEmail(value);
-      checkEmail();
+      // checkEmail();
     } else if (id === "password") {
       setPassword(value);
-      checkPassword();
+      // checkPassword();
     } else if (id === "confirmPassword") {
       setConfirmPassword(value);
-      checkConfirmPassword();
+      // checkConfirmPassword();
     }
   };
 
